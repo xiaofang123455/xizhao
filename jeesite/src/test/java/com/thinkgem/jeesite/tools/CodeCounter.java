@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class CodeCounter {
 
 	/**
-	 * 代码行数统计
+	 * 代码行数统计11
 	 */
 	public static void main(String[] args) {
 		String file = CodeCounter.class.getResource("/").getFile();
