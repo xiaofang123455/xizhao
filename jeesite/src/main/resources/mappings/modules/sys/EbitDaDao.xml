@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.EbitDaDao">
+	<resultMap id="EbitDaResultMap"
+		type="com.thinkgem.jeesite.modules.sys.entity.EbitDa">
+		<result column="D_DWBM" property="dwbm" />
+		<result column="D_DWMC" property="dwmc" />
+		<result column="D_DWJB" property="dwjb" />
+		<result column="D_GSXZ" property="gsxz" />
+		<result column="D_YEAR" property="year" />
+		<result column="D_MONTH" property="month" />
+		<result column="Z_EBITDA" property="ebita" />
+		<result column="Z_INCOME" property="income" />
+		<result column="Z_EBITDA_RATE" property="ebitdaRate" />
+	</resultMap>
+
+	<select id="queryEbitdaByDwbm" resultMap="EbitDaResultMap">
+		select * from (
+			select
+			sum(z_ebitda) z_ebitda,
+			sum(z_income) z_income,
+			sum(z_ebitda)/sum(z_income) z_ebitda_rate,
+			d_year,
+			d_month,
+			d_dwmc,
+			d_dwbm
+			from R_EBITDA
+			where D_DWBM = #{dwbm}
+			<if test="gsxz != null and gsxz != ''">
+				and D_GSXZ =#{gsxz}
+			</if>
+				<if test=" startYear!= null and startYear != ''">
+				<if test=" startYear!= endYear">
+					<![CDATA[
+					and (
+						(D_YEAR > #{startYear} and D_YEAR < #{endYear})
+					 or (D_YEAR = #{startYear} and D_MONTH >=#{startMonth})
+					 or (D_YEAR = #{endYear} and D_MONTH <=#{endMonth})
+					 )
+					]]>
+				</if>
+				<if test=" startYear == endYear">
+					<![CDATA[and ((D_YEAR >= #{startYear} and D_MONTH >=#{startMonth}) and (D_YEAR <= #{endYear} and D_MONTH <=#{endMonth}))]]>
+				</if>
+			</if>
+			group by d_year, d_month,d_dwmc,d_dwbm
+			order by d_year, d_month desc)
+		where  <![CDATA[rownum <=4]]>
+	</select>
+
+	<select id="queryEbitDaByYear" resultMap="EbitDaResultMap">
+		select * from(
+		SELECT z_ebitda_rate, d_dwmc  from
+		(select
+		sum(z_ebitda)/sum(z_income) z_ebitda_rate ,d_dwmc  from R_EBITDA 
+		where d_year=#{endYear} 
+		<if test="gsxz != null and gsxz != ''">
+			and D_GSXZ =#{gsxz}
+		</if>
+		group by d_dwmc order by z_ebitda_rate  desc,d_dwmc asc)
+		WHERE <![CDATA[rownum <=3]]>
+		union all
+		SELECT z_ebitda_rate, d_dwmc from
+		(select
+		sum(z_ebitda)/sum(z_income) z_ebitda_rate ,d_dwmc from R_EBITDA 
+		where d_year=#{endYear} 
+		<if test="gsxz != null and gsxz != ''">
+			and D_GSXZ =#{gsxz}
+		</if>
+		group by d_dwmc order by z_ebitda_rate asc ,d_dwmc desc)
+		WHERE <![CDATA[rownum <=3]]>
+		)t
+	</select>
+
+	<select id="queryEbitDa" resultMap="EbitDaResultMap">
+		select * from R_EBITDA  a 
+			 <where> 
+			 	<if test=" startYear!= null and startYear != ''">
+				<if test=" startYear!= endYear">
+					<![CDATA[
+					(
+						(a.D_YEAR > #{startYear} and a.D_YEAR < #{endYear})
+					 or (a.D_YEAR = #{startYear} and a.D_MONTH >=#{startMonth})
+					 or (a.D_YEAR = #{endYear} and a.D_MONTH <=#{endMonth})
+					 )
+					]]>
+				</if>
+				<if test=" startYear == endYear">
+					<![CDATA[((a.D_YEAR >= #{startYear} and a.D_MONTH >=#{startMonth}) and (a.D_YEAR <= #{endYear} and a.D_MONTH <=#{endMonth}))]]>
+				</if>
+			</if>
+				<!-- <if test="dwbm != null and dwbm != ''">
+					and  a.d_dwbm =#{dwbm}
+				</if> -->
+				<if test="dwbmList != null and dwbmList != ''">
+					and  a.d_dwbm in 
+					<foreach collection="dwbmList" index="index" item="item" open="(" separator="," close=")"> 
+       					 #{item} 
+    				</foreach>
+				</if>
+				<if test="gsxz != null and gsxz != ''">
+					and a.D_GSXZ =#{gsxz}
+				</if>
+				
+			</where>
+			<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.D_DWMC,a.D_GSXZ,a.D_YEAR,a.D_MONTH
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getLatestYear" resultType="string">
+		select D_YEAR from (select * from R_EBITDA order by D_YEAR desc) where <![CDATA[rownum<2]]>
+	</select>
+	
+	<select id="showYearDataChart" resultMap="EbitDaResultMap">
+		select
+			sum(z_ebitda) z_ebitda,
+			sum(z_income) z_income,
+			sum(z_ebitda)/sum(z_income) z_ebitda_rate,
+			d_year,
+			d_month
+			from R_EBITDA
+		where D_YEAR = #{year} and d_dwbm = #{dwbm}
+		group by D_YEAR,D_MONTH order by D_YEAR,D_MONTH asc
+		<!-- group by D_YEAR,d_month order by D_YEAR,d_month asc -->
+	</select>
+	
+		<select id="showSpecificDataChart" resultMap="EbitDaResultMap">
+		select
+			sum(z_ebitda) z_ebitda,
+			sum(z_income) z_income,
+			d_year,
+			d_month,
+			d_gsxz
+			from R_EBITDA
+		where D_YEAR = #{year} and d_dwbm = #{dwbm}
+		group by D_YEAR,D_MONTH,d_gsxz order by D_YEAR,D_MONTH,d_gsxz asc
+	</select>
+	
+	
+</mapper>

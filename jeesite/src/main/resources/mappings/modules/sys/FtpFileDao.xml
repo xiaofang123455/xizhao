@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.FtpFileDao">
+    
+	<sql id="ftpFileColumns">
+		a.id AS "id",
+		a.file_path AS "filePath",
+		a.file_real_name AS "fileRealName",
+		a.file_name AS "fileName",
+		a.uploader AS "uploader",
+		a.upload_datetime AS "uploadDatetime",
+		a.file_type AS "fileType",
+		a.file_size AS "fileSize",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="ftpFileJoins">
+	</sql>
+    
+	<select id="get" resultType="FtpFile">
+		SELECT 
+			<include refid="ftpFileColumns"/>
+		FROM ftp_file a
+		<include refid="ftpFileJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FtpFile">
+		SELECT 
+			<include refid="ftpFileColumns"/>
+		FROM ftp_file a
+		<include refid="ftpFileJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="fileRealName != null and fileRealName != ''">
+				AND a.file_real_name = #{fileRealName}
+			</if>
+			<if test="fileType != null and fileType != ''">
+				AND a.file_type = #{fileType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FtpFile">
+		SELECT 
+			<include refid="ftpFileColumns"/>
+		FROM ftp_file a
+		<include refid="ftpFileJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ftp_file(
+			id,
+			file_path,
+			file_real_name,
+			file_name,
+			uploader,
+			upload_datetime,
+			file_type,
+			del_flag,
+			file_size
+		) VALUES (
+			#{id},
+			#{filePath},
+			#{fileRealName},
+			#{fileName},
+			#{uploader},
+			#{uploadDatetime},
+			#{fileType},
+			#{delFlag},
+			#{fileSize}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ftp_file SET 	
+			id = #{id},
+			file_path = #{filePath},
+			file_real_name = #{fileRealName},
+			file_name = #{fileName},
+			uploader = #{uploader},
+			upload_datetime = #{uploadDatetime},
+			file_type = #{fileType}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE ftp_file SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteAll"  parameterType="list">
+		UPDATE ftp_file SET
+		del_flag = 1
+		WHERE id IN
+   		 <foreach collection="list" index="index" item="item" open="(" separator="," close=")"> 
+       		 #{item} 
+    	</foreach>
+	</update>
+	
+</mapper>

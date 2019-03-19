@@ -1,0 +1,298 @@
+/**@import url("http://fonts.useso.com/css?family=Open+Sans:300,400,600,700&amp;lang=en");**/
+
+.wrapper {
+   /*  padding: 0 20px; */
+}
+
+.wrapper-content {
+    /*  padding: 20px; */
+     padding: 1px; 
+}
+
+.ibox {
+    clear: both;
+    margin-bottom: 25px;
+    margin-top: 0;
+    padding: 0;
+}
+
+.ibox.collapsed .ibox-content {
+    display: none;
+}
+
+.ibox.collapsed .fa.fa-chevron-up:before {
+    content: "\f078";
+}
+
+.ibox.collapsed .fa.fa-chevron-down:before {
+    content: "\f077";
+}
+
+.ibox:after,
+.ibox:before {
+    display: table;
+}
+
+.ibox-title {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    /* border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 4px 0px 0; */
+    color: inherit;
+    margin-bottom: 0;
+    padding: 14px 15px 7px;
+    min-height: 48px;
+}
+.ibox-title h5 {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 0 7px;
+    padding: 0;
+    text-overflow: ellipsis;
+    float: left;
+}
+
+.ibox-title .label {
+    float: left;
+    margin-left: 4px;
+}
+
+
+.ibox .open > .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+.ibox-content {
+    background-color: #ffffff;
+    color: inherit;
+    padding: 15px 20px 20px 20px;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0px;
+}
+.btn-white {
+    color: inherit;
+    background: white;
+    border: 1px solid #e7eaec;
+}
+.btn-white:hover,
+.btn-white:focus,
+.btn-white:active,
+.btn-white.active,
+.open .dropdown-toggle.btn-white {
+    color: inherit;
+    border: 1px solid #d2d2d2;
+}
+
+.btn-white:active,
+.btn-white.active {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) inset;
+}
+
+
+.icheckbox_square-green {
+    background-position: 0 0;
+}
+.icheckbox_square-green.hover {
+    background-position: -24px 0;
+}
+.icheckbox_square-green.checked {
+    background-position: -48px 0;
+}
+.icheckbox_square-green.disabled {
+    background-position: -72px 0;
+    cursor: default;
+}
+.icheckbox_square-green.checked.disabled {
+    background-position: -96px 0;
+}
+
+.table-bordered {
+    border: 1px solid #EBEBEB;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+    background-color: #F5F5F6;
+    border-bottom-width: 1px;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+    border: 1px solid #e7e7e7;
+}
+
+.table > thead > tr > th {
+    border-bottom: 1px solid #DDDDDD;
+    vertical-align: bottom;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    border-top: 1px solid #e7eaec;
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: middle;
+}
+/* PANELS */
+
+.form-control,
+.form-control:focus,
+.has-error .form-control:focus,
+.has-success .form-control:focus,
+.has-warning .form-control:focus,
+.navbar-collapse,
+.navbar-form,
+.navbar-form-custom .form-control:focus,
+.navbar-form-custom .form-control:hover,
+.open .btn.dropdown-toggle,
+.panel,
+.popover,
+.progress,
+.progress-bar {
+    box-shadow: none;
+}
+
+h3,
+h4,
+h5 {
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+/* PEACE */
+
+.pace {
+    -webkit-pointer-events: none;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.pace-inactive {
+    display: none;
+}
+
+.pace .pace-progress {
+    background: #1ab394;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    width: 100%;
+    height: 2px;
+}
+
+.pace-inactive {
+    display: none;
+}
+
+.gray-bg {
+    background-color: #f3f3f4;
+}
+
+	.help-inline{
+			 display: inline-block;
+			  margin-bottom: 0;
+			  vertical-align: middle;
+			  font-size: 13px;
+			} 
+			.help-block,.help-inline {color:#aaaaaa;} .alert {margin-bottom:10px;}
+			body {
+		    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		    font-size: 13px;
+		    color: #676a6c;
+		}
+		.width-15{
+		width:15%
+		}
+		
+		.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+
+.btn-rounded {
+    border-radius: 50px;
+}
+		.btn-primary {
+    background-color: #1ab394;
+    border-color: #1ab394;
+    color: #FFFFFF;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-color: #18a689;
+    border-color: #18a689;
+    color: #FFFFFF;
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-image: none;
+}
+
+
+.btn-primary.btn-outline {
+	color: #1ab394;
+}
+
+.btn-outline {
+	background-color: transparent;
+	transition: all 0.5s ease 0s;
+}
+
+
+.btn-group-sm>.btn, .btn-sm {
+	font-size: 12px;
+	line-height: 1.5;
+	padding: 5px 10px;
+}
+
+.btn-primary.btn-outline:hover, .btn-success.btn-outline:hover,
+	.btn-info.btn-outline:hover, .btn-warning.btn-outline:hover,
+	.btn-danger.btn-outline:hover {
+	color: #fff;
+}
+
+.breadcrumb {
+    background-color: #ffffff;
+    margin-bottom: 0;
+    padding: 0;
+} 
+
+
+.form-horizontal {margin:0 10px;} .form-horizontal .control-group {margin-bottom:8px;}
+.form-horizontal .control-label {padding-top:3px;} .form-horizontal .controls {text-align:left;overflow-x:auto;overflow-y:hidden;}
+.form-horizontal .controls label.error {background-position:0 2px;}
+
+.form-horizontal .table-form{width:100%;border-color:#dddddd;}
+.form-horizontal .table-form, .form-horizontal .table-form td{border:1px solid #ddd;background-color:#fdfdfd;padding:4px;} 
+.form-horizontal .table-form td.tit{background:#fafafa;text-align:center;padding-right:8px;white-space:nowrap;}
+.form-horizontal .form-actions{margin-bottom:0;}
+
+label.error {
+    color: #cc5965;
+    display: inline-block;
+    margin-left: 5px;
+}			

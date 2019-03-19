@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>controller</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2017 zb All rights reserved.
+ */
+package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.thinkgem.jeesite.common.web.BaseController;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+
+/**
+ * ${functionName}Controller
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Controller
+@RequestMapping(value = "${r"${adminPath}"}/${urlPrefix}")
+public class ${ClassName}Controller extends BaseController {
+
+	@Autowired
+	private ${ClassName}Service ${className}Service;
+	
+	
+	@RequiresPermissions("${permissionPrefix}:view")
+	@RequestMapping(value = {"list", ""})
+	public String list(${ClassName} ${className}, HttpServletRequest request, HttpServletResponse response, Model model) {
+	
+		//获取最新年份
+		${ClassName} newest${className} = ${className}Service.getLastestYear();
+		String selYear = "";
+		String selMonth = "";
+		if (newest${className} != null) {
+			 selYear = newest${className}.getYear();
+			 selMonth = newest${className}.getMonth();
+		}
+		
+		${className}.setYear(selYear);
+		${className}.setMonth(selMonth);
+		String descendZbCode = ${className}Service.getFirstDescendZbCode(${className});
+		${className}.setDescendZbCode(descendZbCode);
+		
+		//获取某时间段地市数据
+		List<${ClassName}> pros = ${className}Service.getPros(${className});
+		
+		//获取第一个地市
+		if (pros != null && pros.size() > 0) {
+			${className} = pros.get(0);
+		}
+		
+		//获取月份历史轨迹
+		${className}.setMonth("month");
+		List<${ClassName}> months = ${className}Service.getTimes(${className});
+		//获取年份历史轨迹
+		${className}.setMonth("");
+		List<${ClassName}> years = ${className}Service.getTimes(${className});
+		
+		//获取某时间段占比数据
+		${className}.setYear(selYear);
+		${className}.setMonth(selMonth);
+		List<${ClassName}> zhanbis = ${className}Service.getZhanbis(${className});
+		
+		model.addAttribute("months",months);
+		model.addAttribute("years",years);
+		model.addAttribute("${className}",${className});
+		model.addAttribute("zhanbis",zhanbis);
+		model.addAttribute("pros",pros);
+		return "${lastPackageName}/${viewPrefix}";
+	}
+	
+	/**
+	 * @Description:
+	 *	点击时间图表
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"timeChartClick"})
+	public Map<String, Object>  timeChartClick(${ClassName} ${className}, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//获取某时间段地市数据
+		List<${ClassName}> pros = ${className}Service.getPros(${className});
+
+		//获取某时间段占比数据
+		List<${ClassName}> zhanbis = ${className}Service.getZhanbis(${className});
+				
+		map.put("pros",pros);
+		map.put("zhanbis",zhanbis);
+		return map;
+	}
+	
+	/**
+	 * @Description:
+	 *	点击地图表
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"areaChartClick"})
+	public Map<String, Object>  areaChartClick(${ClassName} ${className}, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//获取某时间段占比数据
+		List<${ClassName}> zhanbis = ${className}Service.getZhanbis(${className});
+
+		//获取月份历史轨迹
+		${className}.setMonth("month");
+		List<${ClassName}> months = ${className}Service.getTimes(${className});
+		//获取年份历史轨迹
+		${className}.setMonth("");
+		List<${ClassName}> years = ${className}Service.getTimes(${className});
+				
+		map.put("months",months);
+		map.put("years",years);
+		map.put("zhanbis",zhanbis);
+		return map;
+	}
+	
+	/**
+	 * @Description:
+	 *	点击占比表
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"zhiBiaoChartClick"})
+	public Map<String, Object>  zhiBiaoChartClick(${ClassName} ${className}, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//获取某时间段地市数据
+		List<${ClassName}> pros = ${className}Service.getPros(${className});
+
+		//获取月份历史轨迹
+		${className}.setMonth("month");
+		List<${ClassName}> months = ${className}Service.getTimes(${className});
+		//获取年份历史轨迹
+		${className}.setMonth("");
+		List<${ClassName}> years = ${className}Service.getTimes(${className});
+				
+		map.put("months",months);
+		map.put("years",years);
+		map.put("pros",pros);
+		
+		return map;
+	}
+
+}]]>
+	</content>
+</template>

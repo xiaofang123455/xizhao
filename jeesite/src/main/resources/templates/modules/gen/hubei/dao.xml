@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>dao</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/dao/${subModuleName}</filePath>
+	<fileName>${ClassName}Dao.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2017 ZB All rights reserved.
+ */
+package ${packageName}.${moduleName}.dao<#if subModuleName != "">.${subModuleName}</#if>;
+
+import java.util.List;
+import com.thinkgem.jeesite.common.persistence.CrudDao;
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+
+/**
+ * ${functionName}DAO接口
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@MyBatisDao
+public interface ${ClassName}Dao extends CrudDao<${ClassName}> {
+	//历史轨迹
+	List<${ClassName}> getTimes(${ClassName} ${className});
+
+	//获取某年份占比数据
+	List<${ClassName}> getZhanbis(${ClassName} ${className});
+
+	//获取某时间段地市数据
+	List<${ClassName}> getPros(${ClassName} ${className});
+
+	//获取最新年份
+	${ClassName} getLastestYear();
+	
+	//获取按照pxbh排序的第一个指标编码
+	String getFirstDescendZbCode(${ClassName} ${className});
+}]]>
+	</content>
+</template>
