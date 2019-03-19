@@ -24,7 +24,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 public class Global {
 
 	/**
-	 * 当前对象实例
+	 * 当前对象实例 
 	 */
 	private static Global global = new Global();
 	
